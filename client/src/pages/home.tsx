@@ -95,7 +95,7 @@ export default function Home() {
                     File ITR Now
                   </Button>
                 </Link>
-                <Button variant="outline" className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-primary transition-colors" data-testid="button-watch-demo">
+                <Button variant="outline" className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-primary transition-colors" data-testid="button-watch-demo">
                   <i className="fas fa-play mr-2"></i>
                   Watch Demo
                 </Button>

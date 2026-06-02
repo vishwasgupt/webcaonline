@@ -455,16 +455,16 @@ export default function Partnership() {
                         <AreaChart data={monthlyProjections} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
                           <defs>
                             <linearGradient id="colorFranchise" x1="0" y1="0" x2="0" y2="1">
-                              <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.2}/>
-                              <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+                              <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.2}/>
+                              <stop offset="95%" stopColor="var(--primary)" stopOpacity={0}/>
                             </linearGradient>
                             <linearGradient id="colorChannel" x1="0" y1="0" x2="0" y2="1">
-                              <stop offset="5%" stopColor="hsl(var(--chart-3))" stopOpacity={0.2}/>
-                              <stop offset="95%" stopColor="hsl(var(--chart-3))" stopOpacity={0}/>
+                              <stop offset="5%" stopColor="var(--chart-3)" stopOpacity={0.2}/>
+                              <stop offset="95%" stopColor="var(--chart-3)" stopOpacity={0}/>
                             </linearGradient>
                             <linearGradient id="colorAssociate" x1="0" y1="0" x2="0" y2="1">
-                              <stop offset="5%" stopColor="hsl(var(--chart-2))" stopOpacity={0.2}/>
-                              <stop offset="95%" stopColor="hsl(var(--chart-2))" stopOpacity={0}/>
+                              <stop offset="5%" stopColor="var(--chart-2)" stopOpacity={0.2}/>
+                              <stop offset="95%" stopColor="var(--chart-2)" stopOpacity={0}/>
                             </linearGradient>
                           </defs>
                           <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
@@ -481,9 +481,9 @@ export default function Partnership() {
                             contentStyle={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: "8px" }}
                           />
                           <Legend wrapperStyle={{ fontSize: "11px", paddingTop: "10px" }} />
-                          <Area type="monotone" dataKey="Franchise Partner" stroke="hsl(var(--primary))" fillOpacity={1} fill="url(#colorFranchise)" strokeWidth={2} />
-                          <Area type="monotone" dataKey="Channel Partner" stroke="hsl(var(--chart-3))" fillOpacity={1} fill="url(#colorChannel)" strokeWidth={2} />
-                          <Area type="monotone" dataKey="Business Associate" stroke="hsl(var(--chart-2))" fillOpacity={1} fill="url(#colorAssociate)" strokeWidth={2} />
+                          <Area type="monotone" dataKey="Franchise Partner" stroke="var(--primary)" fillOpacity={1} fill="url(#colorFranchise)" strokeWidth={2} />
+                          <Area type="monotone" dataKey="Channel Partner" stroke="var(--chart-3)" fillOpacity={1} fill="url(#colorChannel)" strokeWidth={2} />
+                          <Area type="monotone" dataKey="Business Associate" stroke="var(--chart-2)" fillOpacity={1} fill="url(#colorAssociate)" strokeWidth={2} />
                         </AreaChart>
                       </ResponsiveContainer>
                     </CardContent>
@@ -514,8 +514,8 @@ export default function Partnership() {
                             contentStyle={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: "8px" }}
                           />
                           <Legend wrapperStyle={{ fontSize: "11px", paddingTop: "10px" }} />
-                          <Bar dataKey="Initial Investment" fill="hsl(var(--muted-foreground))" radius={[4, 4, 0, 0]} maxBarSize={40} />
-                          <Bar dataKey="Projected Year 1 Earnings" fill="hsl(var(--chart-2))" radius={[4, 4, 0, 0]} maxBarSize={40} />
+                          <Bar dataKey="Initial Investment" fill="var(--muted-foreground)" radius={[4, 4, 0, 0]} maxBarSize={40} />
+                          <Bar dataKey="Projected Year 1 Earnings" fill="var(--chart-2)" radius={[4, 4, 0, 0]} maxBarSize={40} />
                         </BarChart>
                       </ResponsiveContainer>
                     </CardContent>

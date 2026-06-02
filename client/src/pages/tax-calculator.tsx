@@ -114,26 +114,26 @@ export default function TaxCalculator() {
 
   // Chart configuration
   const chartData = [
-    { name: "Old Regime", Tax: Math.round(taxResults.totalTaxOld), fill: "hsl(var(--destructive))" },
-    { name: "New Regime", Tax: Math.round(taxResults.totalTaxNew), fill: "hsl(var(--primary))" }
+    { name: "Old Regime", Tax: Math.round(taxResults.totalTaxOld), fill: "var(--destructive)" },
+    { name: "New Regime", Tax: Math.round(taxResults.totalTaxNew), fill: "var(--primary)" }
   ];
 
   const pieDataNew = [
-    { name: "Net Take-Home", value: Math.max(0, taxResults.grossIncome - taxResults.totalTaxNew), fill: "hsl(var(--chart-2))" },
-    { name: "Tax Payable", value: Math.round(taxResults.totalTaxNew), fill: "hsl(var(--primary))" },
-    { name: "Deductions & Exemptions", value: Math.round(taxResults.stdDeductionNew), fill: "hsl(var(--muted-foreground))" }
+    { name: "Net Take-Home", value: Math.max(0, taxResults.grossIncome - taxResults.totalTaxNew), fill: "var(--chart-2)" },
+    { name: "Tax Payable", value: Math.round(taxResults.totalTaxNew), fill: "var(--primary)" },
+    { name: "Deductions & Exemptions", value: Math.round(taxResults.stdDeductionNew), fill: "var(--muted-foreground)" }
   ];
 
   const pieDataOld = [
-    { name: "Net Take-Home", value: Math.max(0, taxResults.grossIncome - taxResults.totalTaxOld), fill: "hsl(var(--chart-2))" },
-    { name: "Tax Payable", value: Math.round(taxResults.totalTaxOld), fill: "hsl(var(--destructive))" },
-    { name: "Deductions & Exemptions", value: Math.round(taxResults.totalDeductionsOld), fill: "hsl(var(--muted-foreground))" }
+    { name: "Net Take-Home", value: Math.max(0, taxResults.grossIncome - taxResults.totalTaxOld), fill: "var(--chart-2)" },
+    { name: "Tax Payable", value: Math.round(taxResults.totalTaxOld), fill: "var(--destructive)" },
+    { name: "Deductions & Exemptions", value: Math.round(taxResults.totalDeductionsOld), fill: "var(--muted-foreground)" }
   ];
 
   const chartConfig = {
     Tax: {
       label: "Tax Liability (₹)",
-      color: "hsl(var(--primary))"
+      color: "var(--primary)"
     }
   };
 
