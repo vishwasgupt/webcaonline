@@ -1,0 +1,291 @@
+import { type Service, type InsertService, type Application, type InsertApplication, type Inquiry, type InsertInquiry } from "@shared/schema";
+import { randomUUID } from "crypto";
+
+export interface IStorage {
+  // Services
+  getServices(): Promise<Service[]>;
+  getServiceById(id: string): Promise<Service | undefined>;
+  getServiceByName(name: string): Promise<Service | undefined>;
+  createService(service: InsertService): Promise<Service>;
+  
+  // Applications
+  getApplications(): Promise<Application[]>;
+  getApplicationById(id: string): Promise<Application | undefined>;
+  getApplicationsByServiceId(serviceId: string): Promise<Application[]>;
+  createApplication(application: InsertApplication): Promise<Application>;
+  updateApplicationStatus(id: string, status: string): Promise<Application | undefined>;
+  
+  // Inquiries
+  getInquiries(): Promise<Inquiry[]>;
+  createInquiry(inquiry: InsertInquiry): Promise<Inquiry>;
+}
+
+export class MemStorage implements IStorage {
+  private services: Map<string, Service>;
+  private applications: Map<string, Application>;
+  private inquiries: Map<string, Inquiry>;
+
+  constructor() {
+    this.services = new Map();
+    this.applications = new Map();
+    this.inquiries = new Map();
+    this.initializeServices();
+  }
+
+  private initializeServices() {
+    const defaultServices: Service[] = [
+      {
+        id: "itr-filing",
+        name: "Income Tax Return Filing",
+        description: "Quick and easy ITR filing with expert assistance and maximum refund calculation",
+        icon: "fas fa-file-invoice",
+        category: "Tax Services",
+        price: "999",
+        processingTime: "3-5 working days",
+        features: ["Expert CA assistance", "Maximum refund calculation", "E-verification included", "Document review"],
+        requiredDocuments: ["PAN Card", "Aadhaar Card", "Form 16", "Bank Statement", "Investment Proofs"],
+        steps: ["Document Upload", "Data Entry", "Expert Review", "E-filing", "E-verification"],
+        isActive: "true",
+        createdAt: new Date(),
+      },
+      {
+        id: "gst-registration",
+        name: "GST Registration",
+        description: "Register for GST with complete documentation and compliance support",
+        icon: "fas fa-percentage",
+        category: "Tax Services",
+        price: "2499",
+        processingTime: "7-10 working days",
+        features: ["Complete documentation", "State registration", "Portal setup", "Compliance guidance"],
+        requiredDocuments: ["PAN Card", "Aadhaar Card", "Address Proof", "Bank Statement", "Incorporation Certificate"],
+        steps: ["Document Collection", "Application Preparation", "Online Filing", "Verification", "Certificate Issuance"],
+        isActive: "true",
+        createdAt: new Date(),
+      },
+      {
+        id: "gst-return",
+        name: "GST Return Filing",
+        description: "File GST returns with accuracy and compliance to avoid penalties",
+        icon: "fas fa-receipt",
+        category: "Tax Services",
+        price: "1499",
+        processingTime: "2-3 working days",
+        features: ["Monthly/Quarterly returns", "Input tax credit optimization", "Compliance check", "Late fee calculation"],
+        requiredDocuments: ["Sales Register", "Purchase Register", "GST Invoices", "Credit Notes", "Debit Notes"],
+        steps: ["Data Collection", "Return Preparation", "Review & Validation", "Online Filing", "Acknowledgment"],
+        isActive: "true",
+        createdAt: new Date(),
+      },
+      {
+        id: "digital-signature",
+        name: "Digital Signature Certificate",
+        description: "Get your DSC for secure digital transactions and government filings",
+        icon: "fas fa-certificate",
+        category: "Digital Services",
+        price: "1799",
+        processingTime: "1-2 working days",
+        features: ["2-year validity", "Class 3 certificate", "Multiple device support", "Technical support"],
+        requiredDocuments: ["PAN Card", "Aadhaar Card", "Address Proof", "Passport Photo", "Mobile Number"],
+        steps: ["Document Verification", "Biometric Authentication", "Certificate Generation", "USB Token Delivery"],
+        isActive: "true",
+        createdAt: new Date(),
+      },
+      {
+        id: "msme-registration",
+        name: "MSME Registration (Udyam)",
+        description: "Udyam registration for small and medium enterprises with government benefits",
+        icon: "fas fa-industry",
+        category: "Business Registration",
+        price: "1299",
+        processingTime: "3-4 working days",
+        features: ["Government portal registration", "Certificate issuance", "Benefit eligibility", "Renewal reminders"],
+        requiredDocuments: ["Aadhaar Card", "PAN Card", "Business Details", "Bank Statement", "Activity Proof"],
+        steps: ["Business Classification", "Document Upload", "Online Application", "Verification", "Certificate Download"],
+        isActive: "true",
+        createdAt: new Date(),
+      },
+      {
+        id: "fssai-license",
+        name: "FSSAI Food License",
+        description: "Food license for restaurants, food manufacturers and food businesses",
+        icon: "fas fa-utensils",
+        category: "Business License",
+        price: "3499",
+        processingTime: "15-20 working days",
+        features: ["Basic/State/Central license", "5-year validity", "Renewal support", "Compliance guidance"],
+        requiredDocuments: ["Identity Proof", "Address Proof", "Business Proof", "NOC from Municipality", "Water Test Report"],
+        steps: ["License Type Selection", "Document Preparation", "Application Filing", "Inspection", "License Issuance"],
+        isActive: "true",
+        createdAt: new Date(),
+      },
+      {
+        id: "shop-license",
+        name: "Shop and Establishment License",
+        description: "Mandatory license for shops, commercial establishments and businesses",
+        icon: "fas fa-store",
+        category: "Business License",
+        price: "1999",
+        processingTime: "10-15 working days",
+        features: ["State compliance", "Employee registration", "Renewal alerts", "Amendment support"],
+        requiredDocuments: ["Rent Agreement", "Identity Proof", "Address Proof", "NOC from Landlord", "Employee Details"],
+        steps: ["Application Preparation", "Document Submission", "Fee Payment", "Inspection", "License Issuance"],
+        isActive: "true",
+        createdAt: new Date(),
+      },
+      {
+        id: "trademark-registration",
+        name: "Trademark Registration",
+        description: "Protect your brand with trademark registration and legal protection",
+        icon: "fas fa-trademark",
+        category: "Intellectual Property",
+        price: "6999",
+        processingTime: "12-18 months",
+        features: ["Trademark search", "Class selection", "10-year protection", "Renewal support"],
+        requiredDocuments: ["Logo/Wordmark", "Identity Proof", "Address Proof", "Business Proof", "Power of Attorney"],
+        steps: ["Trademark Search", "Application Filing", "Examination", "Publication", "Registration"],
+        isActive: "true",
+        createdAt: new Date(),
+      },
+      {
+        id: "company-registration",
+        name: "Company Registration",
+        description: "Incorporate your business with complete legal compliance and documentation",
+        icon: "fas fa-building",
+        category: "Business Registration",
+        price: "8999",
+        processingTime: "15-20 working days",
+        features: ["Digital signature included", "Director KYC", "Share certificates", "Compliance calendar"],
+        requiredDocuments: ["Director Documents", "Address Proof", "MOA & AOA", "Consent Letters", "INC Forms"],
+        steps: ["Name Reservation", "Document Preparation", "Incorporation Filing", "Certificate Issuance", "Post-incorporation"],
+        isActive: "true",
+        createdAt: new Date(),
+      },
+      {
+        id: "accounting-services",
+        name: "Accounting Services",
+        description: "Professional bookkeeping and accounting services for businesses",
+        icon: "fas fa-calculator",
+        category: "Financial Services",
+        price: "4999",
+        processingTime: "Ongoing monthly",
+        features: ["Monthly bookkeeping", "Financial statements", "Tax preparation", "Compliance support"],
+        requiredDocuments: ["Bank Statements", "Invoices", "Receipts", "Previous Books", "Registration Documents"],
+        steps: ["Setup & Planning", "Data Entry", "Reconciliation", "Reporting", "Review & Support"],
+        isActive: "true",
+        createdAt: new Date(),
+      },
+      {
+        id: "home-loan",
+        name: "Home Loan",
+        description: "Get the best home loan rates and quick approval from top banks",
+        icon: "fas fa-home",
+        category: "Loan Services",
+        price: "Free consultation",
+        processingTime: "7-15 working days",
+        features: ["Multiple bank options", "Best rates", "Quick approval", "Doorstep service"],
+        requiredDocuments: ["Income Proof", "Identity Proof", "Address Proof", "Property Documents", "Bank Statements"],
+        steps: ["Eligibility Check", "Document Collection", "Bank Application", "Property Verification", "Loan Disbursement"],
+        isActive: "true",
+        createdAt: new Date(),
+      },
+      {
+        id: "insurance-services",
+        name: "Insurance Services",
+        description: "Comprehensive insurance solutions for life, health, vehicle and property",
+        icon: "fas fa-shield-alt",
+        category: "Insurance",
+        price: "Varies by policy",
+        processingTime: "1-3 working days",
+        features: ["Multiple insurers", "Best premiums", "Claim support", "Renewal reminders"],
+        requiredDocuments: ["Identity Proof", "Address Proof", "Income Proof", "Medical Reports", "Vehicle Documents"],
+        steps: ["Requirement Analysis", "Quote Comparison", "Policy Selection", "Premium Payment", "Policy Issuance"],
+        isActive: "true",
+        createdAt: new Date(),
+      },
+    ];
+
+    defaultServices.forEach(service => {
+      this.services.set(service.id, service);
+    });
+  }
+
+  // Services
+  async getServices(): Promise<Service[]> {
+    return Array.from(this.services.values()).filter(s => s.isActive === "true");
+  }
+
+  async getServiceById(id: string): Promise<Service | undefined> {
+    return this.services.get(id);
+  }
+
+  async getServiceByName(name: string): Promise<Service | undefined> {
+    return Array.from(this.services.values()).find(s => s.name === name);
+  }
+
+  async createService(insertService: InsertService): Promise<Service> {
+    const id = randomUUID();
+    const service: Service = {
+      ...insertService,
+      id,
+      createdAt: new Date(),
+    } as any;
+    this.services.set(id, service);
+    return service;
+  }
+
+  // Applications
+  async getApplications(): Promise<Application[]> {
+    return Array.from(this.applications.values());
+  }
+
+  async getApplicationById(id: string): Promise<Application | undefined> {
+    return this.applications.get(id);
+  }
+
+  async getApplicationsByServiceId(serviceId: string): Promise<Application[]> {
+    return Array.from(this.applications.values()).filter(app => app.serviceId === serviceId);
+  }
+
+  async createApplication(insertApplication: InsertApplication): Promise<Application> {
+    const id = randomUUID();
+    const applicationNumber = `LEP${Date.now()}${Math.floor(Math.random() * 1000)}`;
+    const application: Application = {
+      ...insertApplication,
+      id,
+      applicationNumber,
+      submittedAt: new Date(),
+      updatedAt: new Date(),
+    } as any;
+    this.applications.set(id, application);
+    return application;
+  }
+
+  async updateApplicationStatus(id: string, status: string): Promise<Application | undefined> {
+    const application = this.applications.get(id);
+    if (application) {
+      application.status = status;
+      application.updatedAt = new Date();
+      this.applications.set(id, application);
+      return application;
+    }
+    return undefined;
+  }
+
+  // Inquiries
+  async getInquiries(): Promise<Inquiry[]> {
+    return Array.from(this.inquiries.values());
+  }
+
+  async createInquiry(insertInquiry: InsertInquiry): Promise<Inquiry> {
+    const id = randomUUID();
+    const inquiry: Inquiry = {
+      ...insertInquiry,
+      id,
+      createdAt: new Date(),
+    } as any;
+    this.inquiries.set(id, inquiry);
+    return inquiry;
+  }
+}
+
+export const storage = new MemStorage();
