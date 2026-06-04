@@ -296,41 +296,8 @@ export default function Home() {
             <p className="text-xl text-muted-foreground" data-testid="text-itr-description">Select the option that best suits your needs and expertise level</p>
           </div>
           
-          <div className="grid lg:grid-cols-2 gap-8">
-            <Card className="p-8 shadow-lg" data-testid="card-self-file">
-              <div className="text-center mb-6">
-                <div className="bg-blue-100 p-4 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
-                  <UserCheck className="text-primary h-8 w-8" />
-                </div>
-                <h3 className="text-2xl font-bold text-card-foreground mb-2">Self-File ITR</h3>
-                <p className="text-muted-foreground">File your income tax return by yourself. It's fast and easy.</p>
-              </div>
-              <ul className="space-y-3 mb-8">
-                <li className="flex items-center">
-                  <CheckCircle className="text-green-600 mr-3 h-5 w-5" />
-                  <span>Simple and intuitive interface</span>
-                </li>
-                <li className="flex items-center">
-                  <CheckCircle className="text-green-600 mr-3 h-5 w-5" />
-                  <span>Step-by-step guidance</span>
-                </li>
-                <li className="flex items-center">
-                  <CheckCircle className="text-green-600 mr-3 h-5 w-5" />
-                  <span>Instant e-verification</span>
-                </li>
-                <li className="flex items-center">
-                  <CheckCircle className="text-green-600 mr-3 h-5 w-5" />
-                  <span>24/7 support available</span>
-                </li>
-              </ul>
-              <Link href="/service/itr-filing" data-testid="button-start-self-filing">
-                <Button className="w-full bg-primary text-primary-foreground py-4 rounded-lg font-semibold text-lg hover:bg-primary/90 transition-colors">
-                  Start Self Filing
-                </Button>
-              </Link>
-            </Card>
-            
-            <Card className="p-8 shadow-lg" data-testid="card-expert-file">
+          <div className="flex justify-center">
+            <Card className="p-8 shadow-lg w-full max-w-lg" data-testid="card-expert-file">
               <div className="text-center mb-6">
                 <div className="bg-orange-100 p-4 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
                   <Users className="text-orange-600 h-8 w-8" />

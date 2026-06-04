@@ -1,4 +1,5 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
+import { defaultServices } from "../data/services";
 
 async function throwIfResNotOk(res: Response) {
   if (!res.ok) {
@@ -12,15 +13,14 @@ export async function apiRequest(
   url: string,
   data?: unknown | undefined,
 ): Promise<Response> {
-  const res = await fetch(url, {
-    method,
-    headers: data ? { "Content-Type": "application/json" } : {},
-    body: data ? JSON.stringify(data) : undefined,
-    credentials: "include",
-  });
+  // Mock API logic for static frontend
+  console.log(`[Mock API] ${method} ${url}`, data);
 
-  await throwIfResNotOk(res);
-  return res;
+  // Return a mock success response
+  return new Response(JSON.stringify({ success: true, message: "Mocked API Request" }), {
+    status: 201,
+    headers: { "Content-Type": "application/json" }
+  });
 }
 
 type UnauthorizedBehavior = "returnNull" | "throw";
@@ -29,7 +29,23 @@ export const getQueryFn: <T>(options: {
 }) => QueryFunction<T> =
   ({ on401: unauthorizedBehavior }) =>
   async ({ queryKey }) => {
-    const res = await fetch(queryKey.join("/") as string, {
+    const url = queryKey.join("/") as string;
+    console.log(`[Mock API] GET ${url}`);
+
+    // Mock endpoints
+    if (url === "/api/services") {
+      return defaultServices as any;
+    }
+
+    if (url.startsWith("/api/services/")) {
+      const id = url.split("/").pop();
+      const service = defaultServices.find(s => s.id === id);
+      if (service) return service as any;
+      throw new Error(`404: Service not found`);
+    }
+
+    // Default fallback
+    const res = await fetch(url, {
       credentials: "include",
     });
 

@@ -222,7 +222,7 @@ export default function ServiceApplicationForm({ service, onSuccess }: ServiceAp
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
                       <label className="text-sm font-medium">Price</label>
-                      <p className="text-2xl font-bold text-primary" data-testid="text-service-price">₹{service.price}</p>
+                      <p className="text-2xl font-bold text-primary" data-testid="text-service-price">{/^\d+$/.test(service.price) ? `₹${service.price}` : service.price}</p>
                     </div>
                     <div>
                       <label className="text-sm font-medium">Processing Time</label>
@@ -278,7 +278,7 @@ export default function ServiceApplicationForm({ service, onSuccess }: ServiceAp
                       <h4 className="font-medium">Service Details</h4>
                       <div className="space-y-2 text-sm">
                         <p><span className="font-medium">Service:</span> {service.name}</p>
-                        <p><span className="font-medium">Price:</span> ₹{service.price}</p>
+                        <p><span className="font-medium">Price:</span> {/^\d+$/.test(service.price) ? `₹${service.price}` : service.price}</p>
                         <p><span className="font-medium">Processing Time:</span> {service.processingTime}</p>
                       </div>
                     </div>

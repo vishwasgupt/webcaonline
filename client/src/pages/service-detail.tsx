@@ -173,7 +173,7 @@ export default function ServiceDetail() {
               <CardContent className="space-y-6">
                 <div className="text-center">
                   <div className="text-4xl font-bold text-primary mb-2" data-testid="service-price">
-                    ₹{service.price}
+                    {/^\d+$/.test(service.price) ? `₹${service.price}` : service.price}
                   </div>
                   <p className="text-sm text-muted-foreground">One-time fee</p>
                 </div>

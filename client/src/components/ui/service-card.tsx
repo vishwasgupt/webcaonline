@@ -21,7 +21,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
           {service.description}
         </p>
         <p className="text-xs font-medium text-primary mb-4" data-testid={`price-${service.id}`}>
-          ₹{service.price}
+          {/^\d+$/.test(service.price) ? `₹${service.price}` : service.price}
         </p>
         <Link href={`/service/${service.id}`} data-testid={`button-apply-${service.id}`}>
           <Button className="w-full bg-primary text-primary-foreground py-2 rounded-lg font-medium hover:bg-primary/90 transition-colors text-xs">

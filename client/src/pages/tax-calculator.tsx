@@ -296,7 +296,7 @@ export default function TaxCalculator() {
                     ) : (
                       <p className="text-muted-foreground flex items-center gap-1.5 text-sm">
                         <CheckCircle2 className="h-4 w-4 text-green-600 shrink-0" />
-                        Both regimes result in the same tax liability of ₹0.
+                        Both regimes result in the same tax liability of ₹{taxResults.totalTaxNew.toLocaleString("en-IN")}.
                       </p>
                     )}
                   </div>
